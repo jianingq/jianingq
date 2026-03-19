@@ -532,8 +532,8 @@
           linksRow.appendChild(document.createTextNode(" / "));
           linksRow.appendChild(buildLink("code", links.code));
 
-          venueEl.parentNode.insertBefore(document.createElement("br"), venueEl.nextSibling);
-          venueEl.parentNode.insertBefore(linksRow, venueEl.nextSibling.nextSibling);
+          td.appendChild(document.createElement("br"));
+          td.appendChild(linksRow);
         });
       }
 
