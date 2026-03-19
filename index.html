@@ -63,6 +63,14 @@
         border: 1px solid #ddd;
         object-fit: cover;
       }
+
+      .paper-links {
+        margin-top: 4px;
+      }
+
+      .paper-links .missing {
+        color: #999;
+      }
     </style>
     
   </head>
@@ -85,7 +93,8 @@
                 <p style="text-align:center">
                   <a href="mailto:jianingq@seas.upenn.edu">Email</a> &nbsp;/&nbsp;
                   <a href="data/Jianing-Qian-cv-2023.pdf">CV</a> &nbsp;/&nbsp;
-                  <a href="https://scholar.google.com/citations?user=o67NTxYAAAAJ&hl=en">Scholar</a> &nbsp;/&nbsp;
+                  <a href="https://www.linkedin.com/in/jianing-aurora-qian-105782a3/">LinkedIn</a> &nbsp;/&nbsp;
+                  <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=o67NTxYAAAAJ&sortby=pubdate">Google Scholar</a>
                 </p>
               </td>
               <td style="padding:2.5%;width:40%;max-width:40%">
@@ -353,6 +362,7 @@
       function addPaperImages() {
         var imageMap = {
           "Fighting fire with fire: Avoiding dnn shortcuts through priming": "images/fire-concept.png",
+          "Object Representations Guided By Optical Flow": "images/flood-network.png",
           "Keyframe-Focused Visual Imitation Learning": "images/keyframe.png",
           "Cloth region segmentation for robust grasp selection": "images/cloth_grasping.gif"
         };
@@ -391,6 +401,142 @@
         });
       }
 
+      function addPaperResourceLinks() {
+        var linkMap = {
+          "NovaPlan: Zero-Shot Long-Horizon Manipulation via Closed-Loop Video Language Planning": {
+            project: null,
+            arxiv: "https://arxiv.org/abs/2602.20119",
+            code: null
+          },
+          "Maestro: Orchestrating Robotics Modules with Vision-Language Models for Zero-Shot Generalist Robots": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Points2Reward: Robotic Manipulation Rewards from Just One Video": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Task-oriented hierarchical object decomposition for visuomotor control": {
+            project: null,
+            arxiv: "https://arxiv.org/abs/2411.01284",
+            code: null
+          },
+          "Recasting generic pretrained vision transformers as object-centric scene encoders for manipulation policies": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Composing pre-trained object-centric representations for robotics from \"what\" and \"where\" foundation models": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Plug-and-play object-centric representations from \"what\" and \"where\" foundation models": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Discovering deformable keypoint pyramids": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Fighting fire with fire: Avoiding dnn shortcuts through priming": {
+            project: "https://sites.google.com/view/icml22-fighting-fire-with-fire/",
+            arxiv: "https://arxiv.org/abs/2206.10816",
+            code: "https://github.com/AlvinWen428/fighting-fire-with-firefire-con"
+          },
+          "Femtomolar SARS-CoV-2 antigen detection using the microbubbling digital assay with smartphone readout enables antigen burden quantitation and tracking": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Keyframe-Focused Visual Imitation Learning": {
+            project: "https://sites.google.com/view/keyframe-focused-imitation",
+            arxiv: "https://arxiv.org/abs/2106.06452",
+            code: "https://github.com/AlvinWen428/keyframe-focused-imitation-learning"
+          },
+          "Robust instance tracking via uncertainty flow": {
+            project: null,
+            arxiv: "https://arxiv.org/abs/2010.04367",
+            code: null
+          },
+          "Cloth region segmentation for robust grasp selection": {
+            project: "https://sites.google.com/view/cloth-segmentation",
+            arxiv: "https://arxiv.org/abs/2008.05626",
+            code: "https://github.com/thomasweng15/cloth-segmentation"
+          },
+          "Fusionmapping: Learning depth prediction with monocular images and 2d laser scans": {
+            project: null,
+            arxiv: "https://arxiv.org/abs/1912.00096",
+            code: null
+          },
+          "Depth-wise decomposition for accelerating separable convolutions in efficient convolutional neural networks": {
+            project: null,
+            arxiv: "https://arxiv.org/abs/1910.09455",
+            code: null
+          },
+          "A Real-time Augmented Reality Surgical System for Overlaying Stiffness Information.": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "A surgical system for automatic registration, stiffness mapping and dynamic image overlay": {
+            project: null,
+            arxiv: null,
+            code: null
+          },
+          "Object Representations Guided By Optical Flow": {
+            project: "https://slideslive.com/38970798/object-representations-guided-by-optical-flow?locale=cs",
+            arxiv: null,
+            code: null
+          }
+        };
+
+        function buildLink(label, url) {
+          if (url) {
+            var a = document.createElement("a");
+            a.href = url;
+            a.textContent = label;
+            return a;
+          }
+
+          var span = document.createElement("span");
+          span.className = "missing";
+          span.textContent = label;
+          return span;
+        }
+
+        var paperCells = document.querySelectorAll("#selected-papers tr td, #all-papers tr td");
+        paperCells.forEach(function(td) {
+          if (td.querySelector(".paper-links")) {
+            return;
+          }
+
+          var titleEl = td.querySelector(".papertitle");
+          var venueEl = td.querySelector("em");
+          if (!titleEl || !venueEl) {
+            return;
+          }
+
+          var title = titleEl.textContent.trim();
+          var links = linkMap[title] || { project: null, arxiv: null, code: null };
+
+          var linksRow = document.createElement("div");
+          linksRow.className = "paper-links";
+          linksRow.appendChild(buildLink("project page", links.project));
+          linksRow.appendChild(document.createTextNode(" / "));
+          linksRow.appendChild(buildLink("arXiv", links.arxiv));
+          linksRow.appendChild(document.createTextNode(" / "));
+          linksRow.appendChild(buildLink("code", links.code));
+
+          venueEl.parentNode.insertBefore(document.createElement("br"), venueEl.nextSibling);
+          venueEl.parentNode.insertBefore(linksRow, venueEl.nextSibling.nextSibling);
+        });
+      }
+
       function showPubsTab(tabName) {
         var selectedContent = document.getElementById("selected-papers");
         var allContent = document.getElementById("all-papers");
@@ -416,6 +562,7 @@
       }
 
       addPaperImages();
+      addPaperResourceLinks();
     </script>
   </body>
 </html>
