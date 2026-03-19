@@ -98,7 +98,7 @@
                 </p>
               </td>
               <td style="padding:2.5%;width:40%;max-width:40%">
-                <a href="images/aurora.png"><img style="width:60%;max-width:60%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/aurora.png" class="hoverZoomLink"></a>
+                <a href="images/aurora.png"><img style="width:60%;height:65%;max-width:60%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/aurora.png" class="hoverZoomLink"></a>
               </td>
             </tr>
           </tbody></table>
@@ -526,6 +526,9 @@
 
           var title = titleEl.textContent.trim();
           var links = linkMap[title] || { project: null, arxiv: null, code: null };
+          if (!links.arxiv) {
+            links.arxiv = "https://arxiv.org/search/?query=" + encodeURIComponent(title) + "&searchtype=title";
+          }
 
           var linksRow = document.createElement("div");
           linksRow.className = "paper-links";
