@@ -492,20 +492,6 @@
           }
         };
 
-        function buildLink(label, url) {
-          if (url) {
-            var a = document.createElement("a");
-            a.href = url;
-            a.textContent = label;
-            return a;
-          }
-
-          var span = document.createElement("span");
-          span.className = "missing";
-          span.textContent = label;
-          return span;
-        }
-
         var paperCells = document.querySelectorAll("#selected-papers tr td, #all-papers tr td");
         paperCells.forEach(function(td) {
           if (td.querySelector(".paper-links")) {
@@ -524,13 +510,31 @@
             links.arxiv = "https://arxiv.org/search/?query=" + encodeURIComponent(title) + "&searchtype=title";
           }
 
+          var items = [];
+          if (links.project) {
+            items.push({ label: "project page", url: links.project });
+          }
+          if (links.arxiv) {
+            items.push({ label: "arXiv", url: links.arxiv });
+          }
+          if (links.code) {
+            items.push({ label: "code", url: links.code });
+          }
+          if (items.length === 0) {
+            return;
+          }
+
           var linksRow = document.createElement("div");
           linksRow.className = "paper-links";
-          linksRow.appendChild(buildLink("project page", links.project));
-          linksRow.appendChild(document.createTextNode(" / "));
-          linksRow.appendChild(buildLink("arXiv", links.arxiv));
-          linksRow.appendChild(document.createTextNode(" / "));
-          linksRow.appendChild(buildLink("code", links.code));
+          items.forEach(function(item, index) {
+            if (index > 0) {
+              linksRow.appendChild(document.createTextNode(" / "));
+            }
+            var a = document.createElement("a");
+            a.href = item.url;
+            a.textContent = item.label;
+            linksRow.appendChild(a);
+          });
 
           td.appendChild(document.createElement("br"));
           td.appendChild(linksRow);
