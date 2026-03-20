@@ -56,13 +56,16 @@
       .paper-thumb {
         float: left;
         width: 150px;
-        height: 95px;
         max-width: 34%;
         margin-right: 14px;
         margin-bottom: 8px;
         border-radius: 6px;
         border: 1px solid #ddd;
         object-fit: cover;
+      }
+
+      .paper-thumb-pocr {
+        height: 95px;
         object-position: center;
       }
 
@@ -407,6 +410,9 @@
           img.className = "paper-thumb";
           img.alt = title + " thumbnail";
           img.src = imageMap[title] || defaultPaperThumb;
+          if (title === "Composing pre-trained object-centric representations for robotics from \"what\" and \"where\" foundation models") {
+            img.classList.add("paper-thumb-pocr");
+          }
           img.onerror = function() {
             this.onerror = null;
             this.src = defaultPaperThumb;
